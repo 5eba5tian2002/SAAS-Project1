@@ -120,7 +120,9 @@ const fetch = require("node-fetch");
 require("dotenv").config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
+
 
 app.use(express.json());
 app.use(express.static(__dirname));
@@ -143,9 +145,8 @@ app.post("/api/youtube-search", async (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`Server läuft auf http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log("Server running on port " + PORT));
+
 
 // --------------------------------------------------
 // YouTube API v3 – Channel Search + Stats
