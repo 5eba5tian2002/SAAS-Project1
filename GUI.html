@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -167,4 +168,175 @@
         }
     </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Find Perfect Match</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #2d2d44);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            background: #ffffff10;
+            backdrop-filter: blur(12px);
+            padding: 40px;
+            border-radius: 16px;
+            width: 380px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 18px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #4f46e5;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        button:hover {
+            background: #6d63ff;
+        }
+
+        #results {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .creator-card {
+            background: #ffffff15;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        .creator-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .creator-card a {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: #4f46e5;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .creator-card a:hover {
+            background: #6d63ff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Find Perfect Match</h2>
+
+        <label>Input Follower Number</label>
+        <input id="minSubs" type="number" placeholder="e.g. 10000">
+
+        <label>Choose Niche</label>
+        <input id="query" type="text" placeholder="e.g. Fitness, Tech, Beauty">
+
+        <label>Search Location</label>
+        <input id="region" type="text" placeholder="e.g. DE, US, Global">
+
+        <button onclick="searchYouTubers()">Start!</button>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        async function searchYouTubers() {
+            const minSubs = document.getElementById("minSubs").value;
+            const query = document.getElementById("query").value;
+            const region = document.getElementById("region").value;
+
+            const body = {
+                minSubs: Number(minSubs),
+                query: query,
+                region: region
+            };
+
+            const response = await fetch("/api/youtube-search", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+
+            const data = await response.json();
+            const resultsDiv = document.getElementById("results");
+
+            if (!data.creators || data.creators.length === 0) {
+                resultsDiv.innerHTML = "<p>No creators found.</p>";
+                return;
+            }
+
+            resultsDiv.innerHTML = data.creators
+                .map(c => `
+                    <div class="creator-card">
+                        <img src="${c.thumbnail}" alt="thumbnail">
+                        <strong>${c.name}</strong><br>
+                        <p>Subscribers: ${Number(c.subscribers).toLocaleString()}</p>
+                        <p>Views: ${Number(c.views).toLocaleString()}</p>
+
+                        <a href="https://www.youtube.com/channel/${c.id}" target="_blank">
+                            Visit Channel
+                        </a>
+                    </div>
+                `)
+                .join("");
+        }
+    </script>
+</body>
+>>>>>>> 57ddc17 (Initial commit)
 </html>
