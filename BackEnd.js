@@ -13,7 +13,7 @@ app.use(express.static(__dirname));
 
 // Serve GUI
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "GUI.html"));
+    res.sendFile(path.join(__dirname, "index.html"));
 });
 
 // API endpoint
